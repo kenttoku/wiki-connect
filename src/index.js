@@ -18,7 +18,8 @@ const defaults = {
     __typename: 'State',
     nodes: [],
     links: []
-  }
+  },
+  next: null
 };
 
 const httpLink = createHttpLink({
@@ -29,7 +30,7 @@ const cache = new InMemoryCache();
 
 const stateLink = withClientState({ cache, defaults, resolvers: {
   Mutation: {
-    updateNodes: (_, { value }, { cache }) => {
+    updateState: (_, { value }, { cache }) => {
       console.log(value);
     }
   }

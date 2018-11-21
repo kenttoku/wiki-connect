@@ -1,16 +1,30 @@
 import React, { Component } from 'react';
+import { graphql, withApollo } from 'react-apollo';
 import * as d3 from 'd3';
 
 import Form from './Form';
+import { stateQuery } from './Queries';
 
 class Graph extends Component {
   componentDidMount() {
-    this.drawChart();
+    if (this.props.data.state) {
+      // console.log(this.props.data.state);
+      this.drawChart(this.props.data.state.nodes);
+    }
   }
 
-  drawChart() {
+  componentDidUpdate() {
+    // console.log('update: ', this.props);
+    if (this.props.data.state) {
+      // console.log(this.props.data.state);
+      this.drawChart(this.props.data.state.nodes);
+    }
+  }
+
+  drawChart(nodes) {
+    // console.log(this.props);
     let width = 1000, height = 800;
-    let nodes = [
+    let nodesa = [
       { title: 'Cheese', next: 'Dairy product' },
       { title: 'Dairy product', next: 'Food' },
       { title: 'Food', next: 'Plant' },
@@ -165,6 +179,7 @@ class Graph extends Component {
   }
 
   render() {
+    // console.log(this.props)
     return (
       <div id="content">
         <Form />
@@ -176,4 +191,4 @@ class Graph extends Component {
   }
 }
 
-export default Graph;
+export default graphql(stateQuery)(withApollo(Graph));

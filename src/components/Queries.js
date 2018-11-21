@@ -4,7 +4,13 @@ export const stateQuery = gql`
   query {
     state @client {
       nodes
-      links
     }
   }
 `;
+
+export const nextQuery = gql`
+  query {
+    next @client
+  }
+`;
+
