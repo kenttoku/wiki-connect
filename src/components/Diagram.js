@@ -48,11 +48,11 @@ class Diagram extends Component {
 
 
     let simulation = d3.forceSimulation(nodes)
-      .force('charge', d3.forceManyBody().strength(-100))
+      .force('charge', d3.forceManyBody().strength(5))
       .force('center', d3.forceCenter(width / 2, height / 2))
       .force('link', d3.forceLink().links(links).id(d => d.title))
-      .force('collide', d3.forceCollide(d => d.size ? d.size : 30))
-      // .velocityDecay(0.8)
+      .force('collide', d3.forceCollide(d => d.size ? d.size : 30).radius(d => 70))
+      .velocityDecay(0.95)
       .on('tick', ticked);
 
     simulation.force('link', d3.forceLink().links(links));
