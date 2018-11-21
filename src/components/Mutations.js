@@ -8,3 +8,12 @@ export const createArticle = gql`
     }
   }
 `;
+
+export const updateState = gql`
+  mutation updateState($value: String!) {
+    updateState(value: $value) @client {
+      nodes
+      links
+    }
+  }
+`;

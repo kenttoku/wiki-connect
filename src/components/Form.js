@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { graphql } from 'react-apollo';
-import { createArticle } from './Mutations';
+import { graphql, compose, Mutation } from 'react-apollo';
+import { createArticle, updateState } from './Mutations';
+import { stateQuery } from './Queries';
 
 class Form extends Component {
   constructor(props) {
@@ -10,9 +11,9 @@ class Form extends Component {
     };
   }
 
-  submitForm(e) {
+  submitForm(e, createArticle) {
     e.preventDefault();
-    this.props.createArticle({
+    createArticle({
       variables: { search: this.state.search }
     });
 
@@ -21,20 +22,39 @@ class Form extends Component {
 
   render() {
     const { search } = this.state;
+    const { state, updateState } = this.props.data;
+    console.log('state: ', state);
+    console.log(this.props);
     return (
-      <form onSubmit={e => this.submitForm(e)}>
-        <label htmlFor="search">Search</label>
-        <input
-          type="text"
-          id="search"
-          placeholder="Class"
-          value={search}
-          onChange={e => this.setState({ search: e.target.value })}
-        />
-        <button type="submit" disabled={false}>Submit</button>
-      </form>
+      <Mutation
+        mutation={createArticle}
+        variables={{ search }}
+        update={(store, { data: { createArticle } }) =>{
+          // console.log(nodesQuery);
+          // const currentStoreState = store.readQuery({ query: nodesQuery });
+          console.log(store);
+          // console.log(currentStoreState);
+          console.log(createArticle);
+          // console.log(updateState);
+        }}
+      >
+        {createArticle => <form onSubmit={e => this.submitForm(e, createArticle)}>
+          <label htmlFor="search">Search</label>
+          <input
+            type="text"
+            id="search"
+            placeholder="Class"
+            value={search}
+            onChange={e => this.setState({ search: e.target.value })}
+          />
+          <button type="submit" disabled={false}>Submit</button>
+        </form>}
+      </Mutation>
     );
   }
 }
 
-export default graphql(createArticle, { name: 'createArticle' })(Form);
+export default compose(
+  graphql(stateQuery),
+  graphql(updateState, { name: 'updateState' })
+)(Form);
