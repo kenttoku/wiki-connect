@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { graphql, compose, withApollo } from 'react-apollo';
-import { createArticle, updateState } from './Mutations';
+import { createArticle } from './Mutations';
 import { stateQuery, nextQuery } from './Queries';
 
 class Form extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      search: ''
+      search: '',
+      words: {}
     };
   }
 
@@ -22,16 +23,16 @@ class Form extends Component {
 
     while (!linked) {
       next = await client.readQuery({ query: nextQuery }).next;
-      const { state } = await client.readQuery({ query: stateQuery });
-      linked = state.nodes.find(node => node.title === next);
+      linked = this.state.words[next];
       await createArticle({
         variables: { search: next }
       });
-      console.log(linked);
-      // console.log(next);
+      const words = {};
+      words[next] = next;
+      this.setState({ words: { ...this.state.words, ...words, } });
     }
     this.setState({
-      search: next
+      search: ''
     });
   }
 
@@ -73,6 +74,5 @@ export default compose(
         store.writeQuery({ query: nextQuery, data: { next: createArticle.next } });
       }
     }
-  } }),
-  graphql(updateState, { name: 'updateState' })
+  } })
 )(withApollo(Form));
