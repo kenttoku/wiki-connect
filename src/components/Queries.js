@@ -14,3 +14,9 @@ export const nextQuery = gql`
   }
 `;
 
+export const resetQuery = gql`
+  query {
+    reset @client
+  }
+`;
+

@@ -30,7 +30,8 @@ const defaults = {
       { title: 'Existence', next: 'Reality', __typename: 'Article' }
     ]
   },
-  next: null
+  next: null,
+  reset: true
 };
 
 const httpLink = createHttpLink({

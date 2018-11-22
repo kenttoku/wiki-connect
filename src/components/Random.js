@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { graphql, compose, withApollo } from 'react-apollo';
-import { createArticle } from './Mutations';
-import { stateQuery, nextQuery } from './Queries';
+import { createArticle, resetState } from './Mutations';
+import { stateQuery, nextQuery, resetQuery } from './Queries';
 
 class Random extends Component {
   constructor(props) {
@@ -14,7 +14,13 @@ class Random extends Component {
   async buttonClicked() {
     let linked;
     let next;
-    const { createArticle, client } = this.props;
+    const { createArticle, client, resetState } = this.props;
+
+    const { reset } = await client.readQuery({ query: resetQuery });
+    if (reset) {
+      await resetState();
+      await client.writeQuery({ query: resetQuery, data: { reset: false } });
+    }
 
     const search = 'Special:random';
     await createArticle({ variables: { search } });
@@ -46,6 +52,8 @@ class Random extends Component {
 
 export default compose(
   graphql(nextQuery),
+  graphql(resetQuery),
+  graphql(resetState, { name: 'resetState' }),
   graphql(createArticle, { name: 'createArticle', options: {
     update: (store, { data: { createArticle } }) => {
       const { state } = store.readQuery({ query: stateQuery });

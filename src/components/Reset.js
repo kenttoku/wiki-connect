@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { graphql, withApollo } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import { resetState } from './Mutations';
 
 class Reset extends Component {
@@ -16,4 +16,4 @@ class Reset extends Component {
   }
 }
 
-export default graphql(resetState, { name: 'resetState' })(withApollo(Reset));
+export default graphql(resetState, { name: 'resetState' })(Reset);
