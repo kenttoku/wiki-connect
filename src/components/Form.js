@@ -54,7 +54,7 @@ class Form extends Component {
           value={search}
           onChange={e => this.setState({ search: e.target.value })}
         />
-        <button type="submit" disabled={!this.state.search}>Submit</button>
+        <button type="submit" disabled={!this.state.search}>Start</button>
       </form>
     );
   }

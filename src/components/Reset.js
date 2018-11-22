@@ -8,7 +8,11 @@ class Reset extends Component {
   }
 
   render() {
-    return <button onClick={() => this.resetState()}>Reset Connections</button>;
+    return (
+      <div>
+        <button onClick={() => this.resetState()}>Reset Canvas</button>
+      </div>
+    );
   }
 }
 
