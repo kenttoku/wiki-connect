@@ -7,6 +7,7 @@ import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { withClientState } from 'apollo-link-state';
+import { API_BASE_URL } from './config';
 
 // Components
 import App from './components/App';
@@ -33,7 +34,7 @@ const defaults = {
 };
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000'
+  uri: API_BASE_URL
 });
 
 const cache = new InMemoryCache();
@@ -52,8 +53,6 @@ const stateLink = withClientState({
           }
         `;
 
-        // const previousState = cache.readQuery({ query });
-        // console.log(previousState);
         const data = {
           state: {
             __typename: 'State',

@@ -3,14 +3,29 @@ import { graphql, compose, withApollo } from 'react-apollo';
 import { createArticle } from './Mutations';
 import { stateQuery, nextQuery } from './Queries';
 
-class Form extends Component {
+class Random extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      words: {}
+    };
+  }
+
   async buttonClicked() {
     let linked;
     let next;
     const { createArticle, client } = this.props;
 
-    const search = this.state.search;
+    const search = 'Special:random';
     await createArticle({ variables: { search } });
+
+    const { state: { nodes } } = await client.readQuery({ query: stateQuery });
+    const words = {};
+    nodes.forEach(node => {
+      words[node.title] = node.title;
+    });
+
+    this.setState({ words });
 
     while (!linked) {
       next = await client.readQuery({ query: nextQuery }).next;
@@ -20,24 +35,12 @@ class Form extends Component {
       });
       const words = {};
       words[next] = next;
+      this.setState({ words: { ...this.state.words, ...words, } });
     }
   }
 
   render() {
-    const { search } = this.state;
-    return (
-      <form onSubmit={e => this.submitForm(e)}>
-        <label htmlFor="search">Search</label>
-        <input
-          type="text"
-          id="search"
-          placeholder="Class"
-          value={search}
-          onChange={e => this.setState({ search: e.target.value })}
-        />
-        <button type="submit" disabled={!this.state.search}>Submit</button>
-      </form>
-    );
+    return <button onClick={() => this.buttonClicked()}>Random Article!</button>;
   }
 }
 
@@ -62,4 +65,4 @@ export default compose(
       }
     }
   } })
-)(withApollo(Form));
+)(withApollo(Random));
