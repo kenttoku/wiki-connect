@@ -1,6 +1,7 @@
 # WikiConnect
 
 WikiConnect is a website for visualizing connections between wikipedia articles.
+The server is hosted [here](https://github.com/kenttoku/wiki-connect-server)
 
 ## Getting Started
 
@@ -26,4 +27,4 @@ npm start
 
 * **Kent Tokunaga** - [kenttoku](https://github.com/kenttoku)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/kenttoku/wiki-connect/contributors) who participated in this project.
