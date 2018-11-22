@@ -36,8 +36,8 @@ class Diagram extends Component {
   drawChart(nodes) {
     let { width, height } = this.state;
     let offset = 50;
-    width -= 50;
-    height -= 250;
+    width = Math.max(270, width - 50);
+    height = Math.max(300, height - 300);
 
     const fontSize = Math.min(width / 480, 1);
     const distance = Math.min(Math.min(width, height) / 8, 80);
@@ -120,8 +120,8 @@ class Diagram extends Component {
 
   render() {
     let { width, height } = this.state;
-    width = Math.max(0, width - 50);
-    height = Math.max(0, height - 250);
+    width = Math.max(270, width - 50);
+    height = Math.max(300, height - 300);
     return (
       <div id="content">
         <svg width={width} height={height}>

@@ -30,6 +30,23 @@ const Search = styled.div`
   margin-right: auto;
 `;
 
+const Footer = styled.footer`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 100%;
+  border-top: 1px solid #ccc;
+  color: #888;
+`;
+
+const FooterContent = styled.div`
+  padding-right: 10px;
+`;
+
+const Link = styled.a`
+  color: #333
+`;
+
 class App extends Component {
   render() {
     return (
@@ -45,6 +62,20 @@ class App extends Component {
           </Search>
           <Diagram />
         </main>
+        <Footer>
+          <FooterContent>
+            Written by: <Link href="https://github.com/kenttoku">Kent Tokunaga
+            </Link>
+          </FooterContent>
+          <FooterContent>
+            <Link href="https://github.com/kenttoku/wiki-connect">Source Code
+            </Link> available on GitHub
+          </FooterContent>
+          <FooterContent>
+            Inspired by: <Link href="https://en.wikipedia.org/wiki/Wikipedia:Getting_to_Philosophy">Getting to Philosophy
+            </Link>
+          </FooterContent>
+        </Footer>
       </div>
     );
   }
