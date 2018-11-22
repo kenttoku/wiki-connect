@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Form from './Form';
 import Diagram from './Diagram';
+import Reset from './Reset';
 
 class App extends Component {
 
@@ -9,6 +10,7 @@ class App extends Component {
     return (
       <div className="app">
         <Form />
+        <Reset />
         <Diagram />
       </div>
     );

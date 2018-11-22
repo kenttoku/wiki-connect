@@ -8,3 +8,11 @@ export const createArticle = gql`
     }
   }
 `;
+
+export const resetState = gql`
+  mutation resetState {
+    resetState @client {
+      state
+    }
+  }
+`;

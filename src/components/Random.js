@@ -4,31 +4,13 @@ import { createArticle } from './Mutations';
 import { stateQuery, nextQuery } from './Queries';
 
 class Form extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      search: '',
-      words: {}
-    };
-  }
-
-  async submitForm(e) {
+  async buttonClicked() {
     let linked;
     let next;
     const { createArticle, client } = this.props;
-    e.preventDefault();
 
     const search = this.state.search;
-    this.setState({ search: '' });
     await createArticle({ variables: { search } });
-
-    const { state: { nodes } } = await client.readQuery({ query: stateQuery });
-    const words = {};
-    nodes.forEach(node => {
-      words[node.title] = node.title;
-    });
-
-    this.setState({ words });
 
     while (!linked) {
       next = await client.readQuery({ query: nextQuery }).next;
@@ -38,7 +20,6 @@ class Form extends Component {
       });
       const words = {};
       words[next] = next;
-      this.setState({ words: { ...this.state.words, ...words, } });
     }
   }
 

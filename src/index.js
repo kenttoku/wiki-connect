@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import gql from 'graphql-tag';
 import { ApolloLink } from 'apollo-link';
 import { ApolloProvider } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
@@ -37,7 +38,35 @@ const httpLink = createHttpLink({
 
 const cache = new InMemoryCache();
 
-const stateLink = withClientState({ cache, defaults, resolvers: {} });
+const stateLink = withClientState({
+  cache,
+  defaults,
+  resolvers: {
+    Mutation: {
+      resetState: (_parent, _args, { cache }) => {
+        const query= gql`
+          query getState {
+            state @client {
+              nodes
+            }
+          }
+        `;
+
+        // const previousState = cache.readQuery({ query });
+        // console.log(previousState);
+        const data = {
+          state: {
+            __typename: 'State',
+            nodes: []
+          },
+        };
+
+        cache.writeQuery({ query, data });
+        return data.state;
+      }
+    }
+  }
+});
 
 const client = new ApolloClient({
   link: ApolloLink.from([stateLink, httpLink]),
