@@ -36,7 +36,8 @@ class App extends Component {
       <div className="app">
         <Header>
           <h1>WikiConnect</h1>
-          <p>The first link (not in parentheses or italics) in a Wikipedia article will take you to a broader subject. Repeating this can connect subjects that are seemingly unreleated. See for yourself by searching for a term! (Canvas will reset on your first search)</p>
+          <p>The first link (not in parentheses or italics) in a Wikipedia article will take you to a broader subject. Repeating this can connect subjects that are seemingly unreleated. See for yourself by searching for a term! (Example canvas will reset on your first search)
+          </p>
         </Header>
         <main>
           <Search>

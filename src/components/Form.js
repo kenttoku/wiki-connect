@@ -73,15 +73,15 @@ class Form extends Component {
     return (
       <div>
         <form onSubmit={e => this.submitForm(e)}>
-          <label htmlFor="search">Search</label>
+          <label htmlFor="search">Search </label>
           <input
             type="text"
             id="search"
-            placeholder="Class"
+            placeholder="Word"
             value={search}
             onChange={e => this.setState({ search: e.target.value })}
           />
-          <button type="submit" disabled={!this.state.search || this.state.disabled}>Start</button>
+          <button type="submit" disabled={!this.state.search || this.state.disabled}>Connect!</button>
         </form>
         <ButtonContainer>
           <Reset disabled={this.state.disabled}/>
