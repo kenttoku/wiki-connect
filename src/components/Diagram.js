@@ -39,6 +39,9 @@ class Diagram extends Component {
     width -= 50;
     height -= 50;
 
+    const fontSize = Math.min(width / 480, 1);
+    const distance = Math.min(Math.min(width, height) / 8, 80);
+
     let links = nodes.map(node => ({
       source: node.title,
       target: nodes.find(targetNode => targetNode.title === node.next)
@@ -51,7 +54,7 @@ class Diagram extends Component {
       .force('charge', d3.forceManyBody().strength(5))
       .force('center', d3.forceCenter(width / 2, height / 2))
       .force('link', d3.forceLink().links(links).id(d => d.title))
-      .force('collide', d3.forceCollide(d => d.size ? d.size : 30).radius(d => 70))
+      .force('collide', d3.forceCollide(d => d.size ? d.size : 30).radius(() => distance))
       .velocityDecay(0.95)
       .on('tick', ticked);
 
@@ -100,7 +103,7 @@ class Diagram extends Component {
         .merge(texts)
         .attr('x', d => d.x = Math.max(offset, Math.min(width - offset, d.x)))
         .attr('y', d => d.y = Math.max(offset, Math.min(height - offset, d.y))+16)
-        .attr('dy', () => 5);
+        .style('font-size', `${fontSize}em`);
 
       texts.each(function(d) {
         d.size = (this.getComputedTextLength() / 2) + 5;
@@ -117,8 +120,8 @@ class Diagram extends Component {
 
   render() {
     let { width, height } = this.state;
-    width -= 50;
-    height -= 50;
+    width = Math.max(0, width - 50);
+    height = Math.max(0, height - 50);
     return (
       <div id="content">
         <svg width={width} height={height}>

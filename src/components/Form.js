@@ -17,9 +17,10 @@ class Form extends Component {
     let next;
     const { createArticle, client } = this.props;
     e.preventDefault();
-    await createArticle({
-      variables: { search: this.state.search }
-    });
+
+    const search = this.state.search;
+    this.setState({ search: '' });
+    await createArticle({ variables: { search } });
 
     while (!linked) {
       next = await client.readQuery({ query: nextQuery }).next;
@@ -31,9 +32,6 @@ class Form extends Component {
       words[next] = next;
       this.setState({ words: { ...this.state.words, ...words, } });
     }
-    this.setState({
-      search: ''
-    });
   }
 
   render() {
@@ -48,7 +46,7 @@ class Form extends Component {
           value={search}
           onChange={e => this.setState({ search: e.target.value })}
         />
-        <button type="submit" disabled={false}>Submit</button>
+        <button type="submit" disabled={!this.state.search}>Submit</button>
       </form>
     );
   }
