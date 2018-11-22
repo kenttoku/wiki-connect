@@ -3,8 +3,6 @@ import styled from 'styled-components';
 
 import Diagram from './Diagram';
 import Form from './Form';
-import Random from './Random';
-import Reset from './Reset';
 
 const Header = styled.header`
   display: flex;
@@ -32,12 +30,6 @@ const Search = styled.div`
   margin-right: auto;
 `;
 
-const ButtonContainer = styled.div`
-  display flex;
-  justify-content: space-around;
-  margin-top: 8px;
-`;
-
 class App extends Component {
   render() {
     return (
@@ -49,10 +41,6 @@ class App extends Component {
         <main>
           <Search>
             <Form />
-            <ButtonContainer>
-              <Reset />
-              <Random />
-            </ButtonContainer>
           </Search>
           <Diagram />
         </main>

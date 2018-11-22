@@ -12,6 +12,7 @@ class Random extends Component {
   }
 
   async buttonClicked() {
+    this.props.setDisabled(true);
     let linked;
     let next;
     const { createArticle, client, resetState } = this.props;
@@ -46,7 +47,7 @@ class Random extends Component {
   }
 
   render() {
-    return <button onClick={() => this.buttonClicked()}>Random Article!</button>;
+    return <button onClick={() => this.buttonClicked()} disabled={this.props.disabled}>Random Article!</button>;
   }
 }
 

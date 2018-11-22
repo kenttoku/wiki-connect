@@ -1,15 +1,31 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import { graphql, compose, withApollo } from 'react-apollo';
 import { createArticle, resetState } from './Mutations';
 import { stateQuery, nextQuery, resetQuery } from './Queries';
+
+import Random from './Random';
+import Reset from './Reset';
+
+const ButtonContainer = styled.div`
+  display flex;
+  justify-content: space-around;
+  margin-top: 8px;
+`;
 
 class Form extends Component {
   constructor(props) {
     super(props);
     this.state = {
       search: '',
-      words: {}
+      words: {},
+      disabled: false
     };
+    this.setDisabled = this.setDisabled.bind(this);
+  }
+
+  setDisabled(disabled) {
+    this.setState({ disabled });
   }
 
   async submitForm(e) {
@@ -17,6 +33,8 @@ class Form extends Component {
     let next;
     const { createArticle, resetState, client } = this.props;
     e.preventDefault();
+
+    this.setDisabled(true);
 
     const { reset } = await client.readQuery({ query: resetQuery });
     if (reset) {
@@ -46,22 +64,31 @@ class Form extends Component {
       words[next] = next;
       this.setState({ words: { ...this.state.words, ...words, } });
     }
+
+    this.setDisabled(false);
   }
 
   render() {
     const { search } = this.state;
+    console.log(this.state.disabled);
     return (
-      <form onSubmit={e => this.submitForm(e)}>
-        <label htmlFor="search">Search</label>
-        <input
-          type="text"
-          id="search"
-          placeholder="Class"
-          value={search}
-          onChange={e => this.setState({ search: e.target.value })}
-        />
-        <button type="submit" disabled={!this.state.search}>Start</button>
-      </form>
+      <div>
+        <form onSubmit={e => this.submitForm(e)}>
+          <label htmlFor="search">Search</label>
+          <input
+            type="text"
+            id="search"
+            placeholder="Class"
+            value={search}
+            onChange={e => this.setState({ search: e.target.value })}
+          />
+          <button type="submit" disabled={!this.state.search || this.state.disabled}>Start</button>
+        </form>
+        <ButtonContainer>
+          <Reset disabled={this.state.disabled}/>
+          <Random disabled={this.state.disabled} setDisabled={this.setDisabled}/>
+        </ButtonContainer>
+      </div>
     );
   }
 }

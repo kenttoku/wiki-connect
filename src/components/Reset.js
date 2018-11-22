@@ -10,7 +10,7 @@ class Reset extends Component {
   render() {
     return (
       <div>
-        <button onClick={() => this.resetState()}>Reset Canvas</button>
+        <button onClick={() => this.resetState()} disabled={this.props.disabled}>Reset Canvas</button>
       </div>
     );
   }
