@@ -44,6 +44,7 @@ class Random extends Component {
       words[next] = next;
       this.setState({ words: { ...this.state.words, ...words, } });
     }
+    this.props.setDisabled(false);
   }
 
   render() {
