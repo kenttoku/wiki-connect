@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { graphql, withApollo } from 'react-apollo';
 import * as d3 from 'd3';
 
-import { stateQuery, nextQuery } from './Queries';
+import { stateQuery } from './Queries';
 
 class Diagram extends Component {
   constructor(props) {
