@@ -7,6 +7,7 @@ import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { withClientState } from 'apollo-link-state';
+import { onError } from 'apollo-link-error';
 import { API_BASE_URL } from './config';
 
 // Components
@@ -14,6 +15,18 @@ import App from './components/App';
 
 // Styling
 import './index.css';
+
+const errorLink = onError(({ operation, graphQLErrors, networkError }) => {
+  console.log(operation);
+  if (graphQLErrors)
+    graphQLErrors.map(({ message, locations, path }) =>
+      console.log(
+        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+      ),
+    );
+
+  if (networkError) console.log(`[Network error]: ${networkError}`);
+});
 
 const defaults = {
   state: {
@@ -69,7 +82,7 @@ const stateLink = withClientState({
 });
 
 const client = new ApolloClient({
-  link: ApolloLink.from([stateLink, httpLink]),
+  link: ApolloLink.from([errorLink, stateLink, httpLink]),
   cache: new InMemoryCache()
 });
 

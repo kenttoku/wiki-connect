@@ -70,7 +70,7 @@ class Form extends Component {
 
   render() {
     const { search } = this.state;
-    console.log(this.state.disabled);
+    console.log(this.props);
     return (
       <div>
         <form onSubmit={e => this.submitForm(e)}>
